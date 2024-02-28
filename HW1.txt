@@ -1,0 +1,172 @@
+#include <iostream>
+//Q1
+double WeightedAverage(double num[], double mishkal[])
+{
+	double resoult = 0;
+	double temp = 0;
+	double temp2 = 0;
+	for (int i = 0;i < 4;i++) {
+		temp += num[i] * mishkal[i];
+		temp2 += mishkal[i];
+	}
+	resoult = temp / temp2;
+
+
+	return resoult;
+}
+
+
+
+//Q2
+bool IArithmeticProgression(int* arr, int size) {
+	int sum = arr[0] - arr[1];
+	int c = 1;
+	
+	for (int i = 0;i < size;i++) {
+		if (sum == arr[i] - arr[i + 1]) {
+			c++;
+		}
+	}
+	if (c == size) {
+		return true;
+	}
+	return false;
+}
+bool IArithmeticProgression(char* arr, int size) {
+	int sum = arr[0] - arr[1];
+	int c = 1;
+
+	for (int i = 0;i < size;i++) {
+		if (sum == arr[i] - arr[i + 1]) {
+			c++;
+		}
+	}
+	if (c == size) {
+		return true;
+	}
+	return false;
+}
+
+
+//Q3
+using namespace std;
+
+char** words(char* sentence, int* size)
+{
+	char** word;
+	int count = 1;
+
+	for (int i = 0; i < strlen(sentence); i++)
+	{
+		if (sentence[i] == ' ')
+		{
+			count++;
+		}
+	}
+	*size = count;
+	word = new char* [*size];
+	count = 0;
+
+	for (int row = 0, col = 0; row < strlen(sentence); row++)
+	{
+		char temp[100];
+		while (sentence[row] != ' ' && sentence[row] != '\0')
+		{
+			temp[col] = sentence[row];
+			row++;
+			col++;
+		}
+
+		temp[col] = '\0';
+		col = 0;
+		word[count] = new char[strlen(temp) + 1];
+		strcpy(word[count], temp);
+		count++;
+	}
+
+	return word;
+}
+
+char* doubleWord(char* sentence)
+{
+	int size = strlen(sentence);
+	int doubleSize = size * 2;
+	char doubleSentence[100];
+
+	for (int i = 0; i < size; i++)
+	{
+		doubleSentence[i] = sentence[i];
+		doubleSentence[i + size] = sentence[i];
+	}
+
+	doubleSentence[doubleSize] = '\0';
+	delete[] sentence;
+	sentence = new char[doubleSize + 1];
+	strcpy(sentence, doubleSentence);
+	return sentence;
+}
+
+void printWords(char** wordArray, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		wordArray[i] = doubleWord(wordArray[i]);
+		cout << wordArray[i] << endl;
+		delete[] wordArray[i];
+	}
+}
+
+
+int main()
+{
+	//________________________Q1
+	double arr1[] = { 2,3,4,5 };
+	double arr2[] = { 0.2,0.3,0.4,0.5 };
+	std::cout<<WeightedAverage(arr1, arr2),"\n";
+	//________________________Q2
+	int len = 0;
+	std::cout << "enter len:\n";
+	std::cin >> len;
+	if (len < 3) {
+		std::cout << "default 3\n";
+		len = 3;
+	}
+	int* nums = new int[len];
+	for (int i = 0;i < len;i++) {
+		std::cout << "enter number: ";
+		std::cin >> nums[i];
+	}
+
+	if (IArithmeticProgression(nums, len)){
+		std::cout << "true\n";
+	}
+	else {
+		std::cout << "false\n";
+	}
+
+
+	char* c = new char[len];
+	for (int i = 0;i < len;i++) {
+		std::cout << "enter a letter: ";
+		std::cin >> c[i];
+	}
+	if (IArithmeticProgression(c, len)) {
+		std::cout << "true\n";
+	}
+	else {
+		std::cout << "false\n";
+	}
+	//________________________Q3
+	char sentence[] = "This is a test sentence";
+	int size;
+	char** wordArray = words(sentence, &size);
+
+	// Print the words
+	printWords(wordArray, size);
+
+	// Deallocate memory
+	delete[] wordArray;
+
+
+}
+
